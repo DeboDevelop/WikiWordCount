@@ -1,7 +1,8 @@
+from collections import defaultdict
+from queue import PriorityQueue
 from typing import Tuple, List
 
 from wikipediaapi import Wikipedia
-import heapq
 
 def get_word_frequency(topic: str, n: int) -> Tuple[List[Tuple[str, int]], bool]:
     # Fetch the Wikipedia article text
@@ -15,16 +16,21 @@ def get_word_frequency(topic: str, n: int) -> Tuple[List[Tuple[str, int]], bool]
 
     # Analyze word frequency
     words = text.split()
-    word_frequency = {}
+    word_frequency = defaultdict(int)
     for word in words:
-        word_frequency[word] = word_frequency.get(word, 0) + 1
+        word_frequency[word] += 1
+        
+    min_heap = PriorityQueue()
 
-    min_heap = [(-count, word) for word, count in word_frequency.items()]
-    heapq.heapify(min_heap)
+    for word, count in word_frequency.items():
+        min_heap.put((count, word))
+        if min_heap.qsize() > n:
+            min_heap.get()
 
-    top_words = [heapq.heappop(min_heap) for _ in range(min(n, len(min_heap)))]
+    top_words = [(None, None)] * min_heap.qsize()
 
-    # Convert the format back to (word, count) for the result
-    top_words = [(word, -count) for count, word in top_words]
+    for i in range(len(top_words) - 1, -1, -1):
+        count, word = min_heap.get()
+        top_words[i] = (word, count)
 
     return top_words, True

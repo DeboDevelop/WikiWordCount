@@ -18,6 +18,7 @@ def word_frequency_controller() -> dict:
 
         # Call the function to get word frequency
         result, result_exist = get_word_frequency(topic, n)
+
         if result_exist:
             new_search = Search(topic=topic, n=n, top_words=result)
             db.session.add(new_search)
