@@ -1,5 +1,6 @@
 from flask import Flask
 from config import Config
+from flasgger import Swagger
 
 from services.wikiWordCount.routes.api import api_bp
 from services.wikiWordCount.models.search import Search
@@ -20,5 +21,7 @@ def create_app(config_class=Config):
     app.register_blueprint(api_bp, url_prefix='/api')
 
     log_requests(app)
+
+    swagger = Swagger(app)
 
     return app

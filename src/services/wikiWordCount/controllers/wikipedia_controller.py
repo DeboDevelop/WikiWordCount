@@ -9,6 +9,55 @@ from utils.db import db
 
 
 def word_frequency_controller() -> dict:
+    """ This endpont is used to get top n words by word count in a wikipedia article.
+    ---
+    summary: "Analyze wikipedia article"
+    description: "Analyze wikipedia article based on word count and return top n words"
+    produces:
+      - "application/json"
+    parameters:
+      - name: topic
+        in: query
+        type: string
+        required: true
+        default: None
+        description: Name of the topic
+      - name: n
+        in: query
+        type: integer
+        required: false
+        default: 10
+        description: Number of top words required
+    responses:
+      200:
+        description: A list of words and their counts
+        schema:
+          type: "array"
+          items:
+            $ref: '#/definitions/WordCount'
+      400:
+        description: Invalid input
+        schema:
+          type: "object"
+          properties:
+            error:
+              type: string
+      500:
+        description: Internal Server Error
+        schema:
+          type: "object"
+          properties:
+            error:
+              type: string
+    definitions:
+      WordCount:
+        type: object
+        properties:
+          word:
+            type: string
+          count:
+            type: integer
+    """
     try:
         n_param = request.args.get('n', default='10')
         # Check if 'n' is a valid integer
@@ -37,6 +86,79 @@ def word_frequency_controller() -> dict:
         return {'error': 'Internal Server Error'}, 500
 
 def search_history_controller() -> dict:
+    """ This endpont is used to list previous word frequency analysis result.
+    ---
+    summary: "List Past Result"
+    description: "Paginated API to list past results"
+    produces:
+      - "application/json"
+    parameters:
+      - name: page
+        in: query
+        type: integer
+        required: true
+        default: 1
+        description: Page Number 
+      - name: per_page
+        in: query
+        type: integer
+        required: true
+        default: 10
+        description: Amount of data requested per page
+    responses:
+      200:
+        description: A list of previous search results
+        schema:
+          type: "array"
+          items:
+            $ref: '#/definitions/SearchHistory'
+      400:
+        description: Invalid input
+        schema:
+          type: "object"
+          properties:
+            error:
+              type: string
+      500:
+        description: Internal Server Error
+        schema:
+          type: "object"
+          properties:
+            error:
+              type: string
+    definitions:
+      SearchHistory:
+        type: "object"
+        properties:
+          search_history:
+            type: "object"
+            items:
+              $ref: '#/definitions/SearchHistoryItem'
+          pagination:
+            type: "object"
+            items:
+              $ref: '#/definitions/PaginateObject'
+      SearchHistoryItem:
+        type: "object"
+        properties:
+          topic:
+            type: string
+          n:
+            type: integer
+          top_words:
+            type: "array"
+            items:
+              $ref: '#/definitions/WordCount'
+          timestamp:
+            type: "datetime"
+      PaginateObject:
+        type: "object"
+        properties:
+          page:
+            type: integer
+          per_page:
+            type: integer
+    """
     try:
         # Attempt to get the values of 'page' and 'per_page' from the request args
         page_param = request.args.get('page', default='1')
