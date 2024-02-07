@@ -6,10 +6,10 @@ from queue import PriorityQueue
 from typing import Tuple, List
 
 from wikipediaapi import Wikipedia
-from config import Config
+from flask import current_app
 
 def blacklist_words(word_frequency: dict) -> dict:
-    env = Config.FLASK_ENV
+    env = current_app.config['FLASK_ENV']
     yaml_path = os.path.join(os.path.dirname(__file__), f'../../flags/{env}.yaml')
 
     with open(yaml_path, 'r') as file:

@@ -32,7 +32,7 @@ class TestSearchHistoryAndWordFrequencyRoutes(unittest.TestCase):
 
         # Test invalid parameter (non-integer value for n)
         with self.client.get(f'/api/word-frequency?topic={topic}&n=invalid') as response:
-            self.assertEqual(response.status_code, 500)
+            self.assertEqual(response.status_code, 400)
 
     def test_search_history_route(self):
         response = self.client.get(f'/api/word-frequency?topic={topic}&n=10')

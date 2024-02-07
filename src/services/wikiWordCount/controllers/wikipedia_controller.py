@@ -10,8 +10,14 @@ from utils.db import db
 
 def word_frequency_controller() -> dict:
     try:
+        n_param = request.args.get('n', default='10')
+        # Check if 'n' is a valid integer
+        try:
+            n = int(n_param)
+        except ValueError:
+            return {'error': 'Invalid value for n, must be an integer'}, 400
+        
         topic: Optional[str] = request.args.get('topic')
-        n: int = int(request.args.get('n', 10))
 
         if not topic:
             return {'error': 'Topic name not provided'}, 400
@@ -32,9 +38,18 @@ def word_frequency_controller() -> dict:
 
 def search_history_controller() -> dict:
     try:
-        # Get page and per_page parameters from the request or use defaults
-        page = request.args.get('page', default=1, type=int)
-        per_page = request.args.get('per_page', default=10, type=int)
+        # Attempt to get the values of 'page' and 'per_page' from the request args
+        page_param = request.args.get('page', default='1')
+        per_page_param = request.args.get('per_page', default='10')
+        try:
+            page = int(page_param)
+        except ValueError:
+            return {'error': 'Invalid value for page, must be an integer'}, 400
+
+        try:
+            per_page = int(per_page_param)
+        except ValueError:
+            return {'error': 'Invalid value for per_page, must be an integer'}, 400
 
         # Paginate the search history
         search_history = Search.query.paginate(page=page, per_page=per_page)
