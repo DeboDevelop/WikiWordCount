@@ -1,4 +1,5 @@
 from typing import Tuple, List
+
 from wikipediaapi import Wikipedia
 import heapq
 

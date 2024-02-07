@@ -1,8 +1,11 @@
 from flask import Flask
 from config import Config
+
 from services.wikiWordCount.routes.api import api_bp
-from middleware import log_requests
 from services.wikiWordCount.models.search import Search
+
+from middleware import log_requests
+
 from utils.db import db
 
 def create_app(config_class=Config):

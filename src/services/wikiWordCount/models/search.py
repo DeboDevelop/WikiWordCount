@@ -1,5 +1,6 @@
-from utils.db import db
 from sqlalchemy.sql import func
+
+from utils.db import db
 
 class Search(db.Model):
     __tablename__ = 'searches'
