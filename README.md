@@ -1,6 +1,6 @@
 # WikiWordCount
 
-My submission uses Flask and PostgreSQL to create a set of APIs structured according to service-oriented architecture. For word analysis, it employs dictionaries to track word counts and a priority queue to extract the top N words. Past search results are stored and retrieved from PostgreSQL using a paginated API. Additionally, I've added an optional blacklisting feature, controlled by a feature flag, allowing users to exclude specific words (not part of the original requirements). The system also supports adding new words to the blacklist.
+My submission uses Flask and PostgreSQL to create a set of APIs structured according to service-oriented architecture. For word analysis, it employs dictionaries to track word counts and a priority queue to extract the top N number of words based on count. Past search results are stored and retrieved from PostgreSQL using a paginated API. Additionally, I've added an optional blacklisting feature, controlled by a feature flag, allowing users to exclude specific words (not part of the original requirements). The system also supports adding new words to the blacklist. Edit the yaml file in flags directory to toggle this feature.
 
 ## Project Setup
 
