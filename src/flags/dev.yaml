@@ -1,0 +1,7 @@
+feature_flag: true
+blacklisted_words:
+  - the
+  - a
+  - is
+  - The
+  - and
