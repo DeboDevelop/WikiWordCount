@@ -1,7 +1,8 @@
+from typing import Tuple, List
 from wikipediaapi import Wikipedia
 import heapq
 
-def get_word_frequency(topic, n):
+def get_word_frequency(topic: str, n: int) -> Tuple[List[Tuple[str, int]], bool]:
     # Fetch the Wikipedia article text
     wiki_wiki = Wikipedia('WikiWordCount/1.0' ,'en')
 
