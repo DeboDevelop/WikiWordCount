@@ -68,6 +68,7 @@ def word_frequency_controller() -> dict:
         
         topic: Optional[str] = request.args.get('topic')
 
+        # If topic is not provided, then it is an invalid input
         if not topic:
             return {'error': 'Topic name not provided'}, 400
 
@@ -75,6 +76,7 @@ def word_frequency_controller() -> dict:
         result, result_exist = get_word_frequency(topic, n)
 
         if result_exist:
+            # Add the search result in the database before returning response
             new_search = Search(topic=topic, n=n, top_words=result)
             db.session.add(new_search)
             db.session.commit()

@@ -22,6 +22,6 @@ def create_app(config_class=Config):
 
     log_requests(app)
 
-    swagger = Swagger(app)
+    Swagger(app)
 
     return app
